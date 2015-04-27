@@ -131,12 +131,13 @@ fi
 status "Installing Sass / Compass / Haml"
 export GEM_HOME=$build_dir/.gem
 status `HOME=$build_dir gem env`
-#export GEM_BIN_PATH=`HOME=$build_dir gem env gemdir`/bin
-#export PATH="$GEM_BIN_PATH:$PATH"
+status `HOME=$build_dir gem env gemdir`
+export GEM_BIN_PATH=`HOME=$build_dir gem env gemdir`/bin
+export PATH="$GEM_BIN_PATH:$PATH"
 status "Current path: $PATH"
 if test -d $cache_dir/ruby/.gem; then
   status "Restoring ruby gems directory from cache"
-  cp -r $cache_dir/ruby/.gem $build_dir
+  cp -r $cache_dir/ruby/.gem $build_dir/
 fi
 HOME=$build_dir gem install sass --user-install --no-rdoc --no-ri
 HOME=$build_dir gem install compass --user-install --no-rdoc --no-ri
