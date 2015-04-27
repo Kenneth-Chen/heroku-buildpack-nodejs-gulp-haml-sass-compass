@@ -129,16 +129,16 @@ fi
 
 # install sass / compass / haml
 status "Installing Sass / Compass / Haml"
-export GEM_HOME=$build_dir/.gem
-status `HOME=$build_dir gem env`
-status `HOME=$build_dir gem env gemdir`
+#export GEM_HOME=$build_dir/.gem
+#status `HOME=$build_dir gem env`
+#status `HOME=$build_dir gem env gemdir`
 
 # Note: I have no idea why this needs to be set this way, but it does. 
 # This will break in the future like it has broken in the past.
 # Such is the circle of ruby life.
-export GEM_BIN_PATH=`HOME=$build_dir gem env gemdir`/ruby/2.2.0/bin
+#export GEM_BIN_PATH=`HOME=$build_dir gem env gemdir`/ruby/2.2.0/bin
 
-export PATH="$GEM_BIN_PATH:$PATH"
+#export PATH="$GEM_BIN_PATH:$PATH"
 status "Current path: $PATH"
 if test -d $cache_dir/ruby/.gem; then
   status "Restoring ruby gems directory from cache"
@@ -150,9 +150,11 @@ fi
 #HOME=$build_dir gem update sass --user-install --no-rdoc --no-ri
 #HOME=$build_dir gem update compass --user-install --no-rdoc --no-ri
 #HOME=$build_dir gem update haml --user-install --no-rdoc --no-ri
-HOME=$build_dir gem install sass --no-rdoc --no-ri
-HOME=$build_dir gem install compass --no-rdoc --no-ri
-HOME=$build_dir gem install haml --no-rdoc --no-ri
+gem install sass --no-rdoc --no-ri
+gem install compass --no-rdoc --no-ri
+gem install haml --no-rdoc --no-ri
+status `sass -v`
+status `which sass`
 
 
 # cache ruby gems
