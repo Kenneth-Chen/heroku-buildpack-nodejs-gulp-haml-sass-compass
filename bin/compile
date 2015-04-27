@@ -139,7 +139,7 @@ status "Installing Sass / Compass / Haml"
 #export GEM_BIN_PATH=`HOME=$build_dir gem env gemdir`/ruby/2.2.0/bin
 
 #export PATH="$GEM_BIN_PATH:$PATH"
-export PATH="/app/.gem/ruby/2.2.0/bin:$PATH"
+PATH="$(ruby -rubygems -e 'puts Gem.user_dir')/bin:$PATH"
 status "Current path: $PATH"
 if test -d $cache_dir/ruby/.gem; then
   status "Restoring ruby gems directory from cache"
