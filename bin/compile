@@ -135,7 +135,6 @@ status "Current GEM_PATH: $GEM_PATH"
 PATH="$GEM_PATH/bin:$PATH"
 export PATH=$PATH
 status "Current PATH: $PATH"
-
 GEM_CACHE_DIR=$cache_dir/ruby/.gem
 GEM_TARGET_DIR="$GEM_PATH/../.."
 status "GEM_CACHE_DIR=$GEM_CACHE_DIR  GEM_TARGET_DIR=$GEM_TARGET_DIR"
@@ -144,8 +143,6 @@ if test -d $GEM_CACHE_DIR; then
   rm -rf $GEM_TARGET_DIR
   mkdir -p $GEM_TARGET_DIR
   cp -r $GEM_CACHE_DIR/* $GEM_TARGET_DIR/
-  ls -l $GEM_CACHE_DIR
-  ls -l $GEM_TARGET_DIR
 fi
 gem install sass --user-install --no-rdoc --no-ri
 gem update sass --user-install --no-rdoc --no-ri
@@ -163,8 +160,6 @@ if test -d $GEM_TARGET_DIR; then
   status "Caching ruby gems directory for future builds"
   mkdir -p $GEM_CACHE_DIR
   cp -r $GEM_TARGET_DIR/* $GEM_CACHE_DIR/
-  ls -l $GEM_TARGET_DIR
-  ls -l $GEM_CACHE_DIR
 fi
 
 # Testing for gulp
