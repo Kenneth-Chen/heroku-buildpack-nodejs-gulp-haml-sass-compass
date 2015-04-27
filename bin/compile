@@ -129,46 +129,38 @@ fi
 
 # install sass / compass / haml
 status "Installing Sass / Compass / Haml"
-#export GEM_HOME=$build_dir/.gem
-#status `HOME=$build_dir gem env`
-#status `HOME=$build_dir gem env gemdir`
-
-# Note: I have no idea why this needs to be set this way, but it does. 
-# This will break in the future like it has broken in the past.
-# Such is the circle of ruby life.
-#export GEM_BIN_PATH=`HOME=$build_dir gem env gemdir`/ruby/2.2.0/bin
-
-#export PATH="$GEM_BIN_PATH:$PATH"
-PATH="$(ruby -rubygems -e 'puts Gem.user_dir')/bin:$PATH"
-export PATH=$PATH
 GEM_PATH="$(ruby -rubygems -e 'puts Gem.user_dir')"
 export GEM_PATH=$GEM_PATH
-status "Current path: $PATH"
-if test -d $cache_dir/ruby/.gem; then
+status "Current GEM_PATH: $GEM_PATH"
+PATH="$GEM_PATH/bin:$PATH"
+export PATH=$PATH
+status "Current PATH: $PATH"
+
+GEM_CACHE_DIR=$cache_dir/ruby/.gem
+GEM_TARGET_DIR="$GEM_PATH/../.."
+status "GEM_CACHE_DIR=$GEM_CACHE_DIR  GEM_TARGET_DIR=$GEM_TARGET_DIR"
+if test -d $GEM_CACHE_DIR; then
   status "Restoring ruby gems directory from cache"
-  #cp -r $cache_dir/ruby/.gem $build_dir/
+  rm -rf $GEM_TARGET_DIR
+  mkdir -p $GEM_TARGET_DIR
+  cp -rv $GEM_CACHE_DIR/ $GEM_TARGET_DIR/
 fi
-#HOME=$build_dir gem install sass --user-install --no-rdoc --no-ri
-#HOME=$build_dir gem install compass --user-install --no-rdoc --no-ri
-#HOME=$build_dir gem install haml --user-install --no-rdoc --no-ri
-#HOME=$build_dir gem update sass --user-install --no-rdoc --no-ri
-#HOME=$build_dir gem update compass --user-install --no-rdoc --no-ri
-#HOME=$build_dir gem update haml --user-install --no-rdoc --no-ri
 gem install sass --user-install --no-rdoc --no-ri
-#gem install compass --user-install --no-rdoc --no-ri
-#gem install haml --user-install --no-rdoc --no-ri
+gem update sass --user-install --no-rdoc --no-ri
 status `sass -v`
-#status `which sass`
+gem install compass --user-install --no-rdoc --no-ri
+gem update compass --user-install --no-rdoc --no-ri
+gem install haml --user-install --no-rdoc --no-ri
+gem update haml --user-install --no-rdoc --no-ri
 
 
 # cache ruby gems
-rm -rf $cache_dir/ruby
-mkdir -p $cache_dir/ruby
-
+rm -rf $GEM_CACHE_DIR
 # If app has a gems directory, cache it.
-if test -d $build_dir/.gem; then
+if test -d $GEM_TARGET_DIR; then
   status "Caching ruby gems directory for future builds"
-  cp -r $build_dir/.gem $cache_dir/ruby
+  mkdir -p $GEM_CACHE_DIR
+  cp -rv $GEM_TARGET_DIR/ $GEM_CACHE_DIR/
 fi
 
 # Testing for gulp
