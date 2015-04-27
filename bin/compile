@@ -150,9 +150,9 @@ fi
 #HOME=$build_dir gem update sass --user-install --no-rdoc --no-ri
 #HOME=$build_dir gem update compass --user-install --no-rdoc --no-ri
 #HOME=$build_dir gem update haml --user-install --no-rdoc --no-ri
-gem install sass --no-rdoc --no-ri
-gem install compass --no-rdoc --no-ri
-gem install haml --no-rdoc --no-ri
+gem install sass --user-install --no-rdoc --no-ri
+gem install compass --user-install --no-rdoc --no-ri
+gem install haml --user-install --no-rdoc --no-ri
 status `sass -v`
 status `which sass`
 
