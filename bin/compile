@@ -143,7 +143,9 @@ if test -d $GEM_CACHE_DIR; then
   status "Restoring ruby gems directory from cache"
   rm -rf $GEM_TARGET_DIR
   mkdir -p $GEM_TARGET_DIR
-  cp -rv $GEM_CACHE_DIR/ $GEM_TARGET_DIR/
+  cp -r $GEM_CACHE_DIR/* $GEM_TARGET_DIR/
+  ls -l $GEM_CACHE_DIR
+  ls -l $GEM_TARGET_DIR
 fi
 gem install sass --user-install --no-rdoc --no-ri
 gem update sass --user-install --no-rdoc --no-ri
@@ -160,7 +162,9 @@ rm -rf $GEM_CACHE_DIR
 if test -d $GEM_TARGET_DIR; then
   status "Caching ruby gems directory for future builds"
   mkdir -p $GEM_CACHE_DIR
-  cp -rv $GEM_TARGET_DIR/ $GEM_CACHE_DIR/
+  cp -r $GEM_TARGET_DIR/* $GEM_CACHE_DIR/
+  ls -l $GEM_TARGET_DIR
+  ls -l $GEM_CACHE_DIR
 fi
 
 # Testing for gulp
