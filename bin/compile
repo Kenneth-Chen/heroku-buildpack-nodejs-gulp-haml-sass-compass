@@ -128,9 +128,11 @@ if [ ! -e $build_dir/Procfile ]; then
 fi
 
 # install sass / compass / haml
-status "Installing Sass / Compass / Haml GEM_HOME=$GEM_HOME"
+status "Installing Sass / Compass / Haml"
+status `ruby -v`
 export GEM_HOME=$build_dir/.gem/ruby/1.9.1
 PATH="$GEM_HOME/bin:$PATH"
+status "CUrrent path: $PATH"
 if test -d $cache_dir/ruby/.gem; then
   status "Restoring ruby gems directory from cache"
   cp -r $cache_dir/ruby/.gem $build_dir
