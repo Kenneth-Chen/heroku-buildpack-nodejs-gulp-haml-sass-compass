@@ -129,7 +129,7 @@ fi
 
 # install sass / compass / haml
 status "Installing Sass / Compass / Haml"
-export GEM_HOME=$build_dir/.gem/ruby/1.9.1
+# export GEM_HOME=$build_dir/.gem/ruby/1.9.1
 status `gem env`
 export GEM_BIN_PATH=`HOME=$build_dir gem env gemdir`/bin
 export PATH="$GEM_BIN_PATH:$PATH"
