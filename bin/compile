@@ -131,28 +131,37 @@ fi
 
 # install sass / compass / haml
 status "Installing Sass / Compass / Haml"
-export GEM_HOME=$build_dir/.gem/ruby/1.9.1
-PATH="$GEM_HOME/bin:$PATH"
-if test -d $cache_dir/ruby/.gem; then
+GEM_PATH="$(ruby -rubygems -e 'puts Gem.user_dir')"
+export GEM_PATH=$GEM_PATH
+status "Current GEM_PATH: $GEM_PATH"
+PATH="$GEM_PATH/bin:$PATH"
+export PATH=$PATH
+status "Current PATH: $PATH"
+GEM_CACHE_DIR=$cache_dir/ruby/.gem
+GEM_TARGET_DIR="$GEM_PATH/../.."
+status "GEM_CACHE_DIR=$GEM_CACHE_DIR  GEM_TARGET_DIR=$GEM_TARGET_DIR"
+if test -d $GEM_CACHE_DIR; then
   status "Restoring ruby gems directory from cache"
-  cp -r $cache_dir/ruby/.gem $build_dir
-  HOME=$build_dir gem update sass --user-install --no-rdoc --no-ri
-  HOME=$build_dir gem update compass --user-install --no-rdoc --no-ri
-  HOME=$build_dir gem update haml --user-install --no-rdoc --no-ri
-else
-  HOME=$build_dir gem install sass --user-install --no-rdoc --no-ri
-  HOME=$build_dir gem install compass --user-install --no-rdoc --no-ri
-  HOME=$build_dir gem install haml --user-install --no-rdoc --no-ri
+  rm -rf $GEM_TARGET_DIR
+  mkdir -p $GEM_TARGET_DIR
+  cp -r $GEM_CACHE_DIR/* $GEM_TARGET_DIR/
 fi
+gem install sass --user-install --no-rdoc --no-ri
+gem update sass --user-install --no-rdoc --no-ri
+status `sass -v`
+gem install compass --user-install --no-rdoc --no-ri
+gem update compass --user-install --no-rdoc --no-ri
+gem install haml --user-install --no-rdoc --no-ri
+gem update haml --user-install --no-rdoc --no-ri
+
 
 # cache ruby gems
-rm -rf $cache_dir/ruby
-mkdir -p $cache_dir/ruby
-
+rm -rf $GEM_CACHE_DIR
 # If app has a gems directory, cache it.
-if test -d $build_dir/.gem; then
+if test -d $GEM_TARGET_DIR; then
   status "Caching ruby gems directory for future builds"
-  cp -r $build_dir/.gem $cache_dir/ruby
+  mkdir -p $GEM_CACHE_DIR
+  cp -r $GEM_TARGET_DIR/* $GEM_CACHE_DIR/
 fi
 
 # Testing for gulp
