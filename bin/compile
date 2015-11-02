@@ -133,18 +133,17 @@ fi
 status "Installing Sass / Compass / Haml"
 export GEM_HOME=$build_dir/.gem/ruby/1.9.1
 PATH="$GEM_HOME/bin:$PATH"
-# Ignore ruby gem cache
-# if test -d $cache_dir/ruby/.gem; then
-#   status "Restoring ruby gems directory from cache"
-#   cp -r $cache_dir/ruby/.gem $build_dir
-#   HOME=$build_dir gem update sass --user-install --no-rdoc --no-ri
-#   HOME=$build_dir gem update compass --user-install --no-rdoc --no-ri
-#   HOME=$build_dir gem update haml --user-install --no-rdoc --no-ri
-# else
-HOME=$build_dir gem install sass --user-install --no-rdoc --no-ri
-HOME=$build_dir gem install compass --user-install --no-rdoc --no-ri
-HOME=$build_dir gem install haml --user-install --no-rdoc --no-ri
-# fi
+if test -d $cache_dir/ruby/.gem; then
+  status "Restoring ruby gems directory from cache"
+  cp -r $cache_dir/ruby/.gem $build_dir
+  HOME=$build_dir gem update sass --user-install --no-rdoc --no-ri
+  HOME=$build_dir gem update compass --user-install --no-rdoc --no-ri
+  HOME=$build_dir gem update haml --user-install --no-rdoc --no-ri
+else
+  HOME=$build_dir gem install sass --user-install --no-rdoc --no-ri
+  HOME=$build_dir gem install compass --user-install --no-rdoc --no-ri
+  HOME=$build_dir gem install haml --user-install --no-rdoc --no-ri
+fi
 
 # cache ruby gems
 rm -rf $cache_dir/ruby
